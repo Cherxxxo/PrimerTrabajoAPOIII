@@ -1,0 +1,151 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ */
+
+package apoiiiorginizadordetareas;
+
+import java.util.ArrayList;
+import java.util.Scanner;
+
+/**
+ *
+ * @author darka
+ */
+public class APOIIIOrginizadorDeTareas {
+
+    private ArrayList<Tareas> misTareas;
+    private Scanner lector;
+
+    public APOIIIOrginizadorDeTareas() {
+        misTareas = new ArrayList<>();
+        lector = new Scanner(System.in);
+    }
+
+    public void mostrarMenu() {
+        boolean activo = true;
+        do {
+            System.out.println("_____ MENU DE OPCIONES _____\n"
+                    + "1. Agregar Tarea\n"
+                    + "2. Mostrar Tarea\n"
+                    + "3. Mostrar Tarea por prioridad\n"
+                    + "4. Salir\n");
+
+            System.out.print("Seleccione una opción: ");
+            int opcion = lector.nextInt();
+            lector.nextLine();
+
+            switch (opcion) {
+                case 1:
+                    AgregarTarea();
+                    break;
+
+                case 2:
+                    MostrarTarea();
+                    break;
+
+                case 3:
+                    PrioridadTarea();
+                    break;
+
+                case 4:
+                    activo = false;
+                    System.out.println("Programa terminado");
+                    break;
+
+                default:
+                    System.out.println("Opción no válida, inténtelo nuevamente");
+            }
+        } while (activo);
+    }
+
+    private void AgregarTarea() {
+        System.out.print("Ingrese el ID de la tarea: ");
+        int id = lector.nextInt();
+        lector.nextLine();
+
+        System.out.print("Ingrese la descripción de la tarea: ");
+        String descripcion = lector.nextLine();
+
+        System.out.print("Ingrese la prioridad de la tarea (5-Muy Alta, 4-Alta, 3-Media, 2-baja, 1-Muy Baja): ");
+        int prioridad = lector.nextInt();
+        lector.nextLine();
+
+        // Crear una nueva tarea
+        Tareas nuevaTarea = new Tareas(id, descripcion, prioridad);
+
+        // Agregar la tarea a la lista
+        misTareas.add(nuevaTarea);
+
+        // Mostrar mensaje de confirmación
+        System.out.println("Tarea agregada correctamente!");
+
+    }
+
+    private void MostrarTarea() {
+        if (misTareas.isEmpty()) {
+            System.out.println("No hay tareas disponibles");
+        } else {
+            for (Tareas tarea : misTareas) {
+                System.out.println("ID: " + tarea.getIdTareas());
+                System.out.println("Descripción: " + tarea.getDescripcion());
+                System.out.println("Prioridad: " + getPrioridadTexto(tarea.getPrioridad()));
+                System.out.println();
+            }
+        }
+    }
+
+    private String getPrioridadTexto(int prioridad) {
+        String textoPrioridad = "";
+        switch (prioridad) {
+            case 1:
+                textoPrioridad = "Muy Alta";
+                break;
+            case 2:
+                textoPrioridad = "Alta";
+                break;
+            case 3:
+                textoPrioridad = "Media";
+                break;
+            case 4:
+                textoPrioridad = "baja";
+                break;
+            case 5:
+                textoPrioridad = "muy baja";
+                break;
+        }
+        return textoPrioridad;
+    }
+
+    private void PrioridadTarea() {
+        if (misTareas.isEmpty()) {
+    System.out.println("No hay tareas disponibles");
+  } else {
+    // Implementar la ordenación con ciclo for
+    int n = misTareas.size();
+    for (int i = 0; i < n - 1; i++) {
+      for (int j = i + 1; j < n; j++) {
+        if (misTareas.get(i).getPrioridad() < misTareas.get(j).getPrioridad()) {
+          // Intercambiar elementos si la prioridad de i es menor a la de j
+          Tareas temp = misTareas.get(i);
+          misTareas.set(i, misTareas.get(j));
+          misTareas.set(j, temp);
+        }
+      }
+    }
+
+    // Mostrar tareas ordenadas
+    for (Tareas tarea : misTareas) {
+      System.out.println("ID: " + tarea.getIdTareas());
+      System.out.println("Descripción: " + tarea.getDescripcion());
+      System.out.println("Prioridad: " + getPrioridadTexto(tarea.getPrioridad()));
+      System.out.println();
+    }
+  }
+    }
+
+    // **Main method**
+    public static void main(String[] args) {
+        APOIIIOrginizadorDeTareas organizador = new APOIIIOrginizadorDeTareas();
+        organizador.mostrarMenu();
+    }
+}
